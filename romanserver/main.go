@@ -3,10 +3,13 @@ package main
 import (
 	"fmt"
 	"html"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"../romanNumerals"
 )
 
 func main() {
@@ -26,7 +29,7 @@ func main() {
 			}
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]bytes("400 - Bad Request"))
+			w.Write([]byte("400 - Bad Request"))
 		}
 	})
 
@@ -37,5 +40,8 @@ func main() {
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	s.ListenAndServe()
+
+	log.Println("Starting Server")
+	err := s.ListenAndServe()
+	log.Fatal(err)
 }
